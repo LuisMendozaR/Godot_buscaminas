@@ -1,3 +1,24 @@
-[gd_scene format=3 uid="uid://bibutyfkaot3s"]
+[gd_scene load_steps=2 format=3 uid="uid://bibutyfkaot3s"]
+
+[ext_resource type="Script" path="res://Codigo/casilla.gd" id="1_2ldbx"]
 
 [node name="Casilla" type="Node2D"]
+script = ExtResource("1_2ldbx")
+
+[node name="celda" type="Sprite2D" parent="."]
+
+[node name="evento" type="Sprite2D" parent="."]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="Label" type="Label" parent="."]
+offset_right = 32.0
+offset_bottom = 32.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]

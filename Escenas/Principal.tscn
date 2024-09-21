@@ -1,3 +1,20 @@
-[gd_scene format=3 uid="uid://badcfyir40hjo"]
+[gd_scene load_steps=3 format=3 uid="uid://badcfyir40hjo"]
+
+[ext_resource type="Script" path="res://Codigo/principal.gd" id="1_5tdrg"]
+[ext_resource type="Script" path="res://Codigo/sub_viewport.gd" id="2_52e6u"]
 
 [node name="Principal" type="Node2D"]
+script = ExtResource("1_5tdrg")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+offset_top = 130.0
+offset_right = 1153.0
+offset_bottom = 646.0
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+script = ExtResource("2_52e6u")
