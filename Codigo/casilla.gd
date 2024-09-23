@@ -39,3 +39,35 @@ func sprite_position(pos):
 func set_label(l):
 	$Label.text=str(l)
 	
+func mover(dir):
+	var m = matriz.size_matriz
+	var c = matriz.size_cell
+	match dir:
+		3: #right
+			if pos.x+1 >= m.x:
+				position.x = 0 
+				pos.x = 0
+			else: 
+				position.x += c.x
+				pos.x += 1
+		4: #left
+			if pos.x-1 < 0:
+				position.x = c.x * (m.x-1)
+				pos.x =  m.x-1
+			else: 
+				position.x -= c.x 
+				pos.x -= 1
+		2: #down
+			if pos.y+1 >= m.y:
+				position.y = 0 
+				pos.y = 0
+			else: 
+				position.y += c.y
+				pos.y += 1
+		1: #up
+			if pos.y-1 < 0:
+				position.y = c.y * (m.y-1)
+				pos.y =  m.y-1
+			else: 
+				position.y -= c.y 
+				pos.y -= 1
