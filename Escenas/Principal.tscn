@@ -9,12 +9,60 @@ script = ExtResource("1_5tdrg")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
-offset_top = 130.0
-offset_right = 1153.0
-offset_bottom = 646.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -160.0
+offset_right = 160.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(320, 320)
 render_target_update_mode = 4
 script = ExtResource("2_52e6u")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1151.0
+offset_bottom = 100.0
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer2"]
+anchors_preset = -1
+anchor_left = 0.034
+anchor_top = 0.045
+anchor_right = 0.966
+anchor_bottom = 0.045
+offset_bottom = 31.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="minas" type="Label" parent="CanvasLayer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "minas"
+
+[node name="Button" type="Button" parent="CanvasLayer2/HBoxContainer"]
+layout_mode = 2
+text = "boton"
+
+[node name="tiempo" type="Label" parent="CanvasLayer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "tiempo: 0"
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="pressed" from="CanvasLayer2/HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="Timer" to="CanvasLayer/SubViewportContainer/SubViewport" method="_on_timer_timeout"]

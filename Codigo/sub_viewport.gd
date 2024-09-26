@@ -7,6 +7,7 @@ var uncover = preload("res://Herramientas/Imagenes/uncover.png")
 var casilla = preload("res://Escenas/casilla.tscn")
 
 
+
 var size_matriz = Vector2i(31,16)
 var num_bombas = 99
 var size_cell = Vector2i(32,32)
@@ -14,12 +15,17 @@ var size_cell = Vector2i(32,32)
 var click_inicial = true
 var fin_del_juego = false
 
+var count_flags = 0
+var tiempo = 0
+
 var matriz = []
 
 
 
 func _ready() -> void:
 	size=size_matriz * size_cell
+	count_flags = num_bombas
+	$"../../../CanvasLayer2/HBoxContainer/minas".text = "minas: " + str(count_flags)
 	init_matriz()
 
 
@@ -63,8 +69,7 @@ func init_matriz():
 			
 			matriz[i][j] = datos
 
-			if Vector2i(1,0) == Vector2i(1,1):
-				print("llego")
+
 
 
 func set_bombs(pos):
@@ -108,6 +113,7 @@ func left_click(pos,tipo=0):
 	#if fin_del_juego == false:
 	if click_inicial == true:
 		set_bombs(pos)
+		$"../../../Timer".start()
 		click_inicial = false
 		
 	var m = matriz[pos.x][pos.y]
@@ -158,9 +164,13 @@ func right_click(pos):
 		if m.is_flag == true:
 			m.casilla.set_evento(null)
 			m.is_flag = false
+			count_flags += 1
+			$"../../../CanvasLayer2/HBoxContainer/minas".text = "minas: "+str(count_flags)
 		else:
 			m.casilla.set_evento(flag)
 			m.is_flag = true
+			count_flags -= 1
+			$"../../../CanvasLayer2/HBoxContainer/minas".text = "minas: "+str(count_flags)
 
 
 #Talvez cambio a continue
@@ -210,3 +220,9 @@ func mover_celdas(direccion):
 
 	
 		
+
+
+func _on_timer_timeout() -> void:
+	tiempo += 1
+	$"../../../CanvasLayer2/HBoxContainer/tiempo".text = "tiempo: " + str(tiempo)
+	pass # Replace with function body.
