@@ -13,19 +13,22 @@ var num_bombas = 99
 var size_cell = Vector2i(32,32)
 
 var click_inicial = true
-var fin_del_juego = false
 
+var celda_destapada = 0
 var count_flags = 0
-var tiempo = 0
+var tiempo 
 
 var matriz = []
 
 
 
 func _ready() -> void:
+	
 	size=size_matriz * size_cell
 	count_flags = num_bombas
 	$"../../../CanvasLayer2/HBoxContainer/minas".text = "minas: " + str(count_flags)
+	tiempo = int (size_matriz.length() * num_bombas / 15 +10)
+	$"../../../CanvasLayer2/HBoxContainer/tiempo".text = "tiempo: "+str(tiempo)
 	init_matriz()
 
 
@@ -124,12 +127,13 @@ func left_click(pos,tipo=0):
 			m.is_cover = false
 			if m.is_bomb == false:
 				m.casilla.set_label(m.count)
+				destapar()
 				if m.count == 0:
 					revelar(pos)
 			else:
 				m.casilla.set_label("")
 				m.casilla.set_evento(bomba)
-				fin_del_juego = true
+				fin_del_juego()
 					
 		else:
 			if tipo == 0:
@@ -173,7 +177,6 @@ func right_click(pos):
 			$"../../../CanvasLayer2/HBoxContainer/minas".text = "minas: "+str(count_flags)
 
 
-#Talvez cambio a continue
 func revelar(pos):
 	for i in range(-1,2):
 		for j in range(-1,2):
@@ -223,6 +226,23 @@ func mover_celdas(direccion):
 
 
 func _on_timer_timeout() -> void:
-	tiempo += 1
+	tiempo -= 1
 	$"../../../CanvasLayer2/HBoxContainer/tiempo".text = "tiempo: " + str(tiempo)
-	pass # Replace with function body.
+	if tiempo <= 0:
+		fin_del_juego()
+
+
+
+func fin_del_juego():
+	process_mode = Node.PROCESS_MODE_DISABLED
+	$"../../../Timer".stop()
+	
+func destapar():# en prueba
+	celda_destapada += 1 
+	if celda_destapada >= size_matriz.x * size_matriz.y - num_bombas:
+		fin_del_juego()
+		for i in range(size_matriz.x):
+			for j in range(size_matriz.y):
+				if matriz[i][j].is_cover == true and matriz[i][j].is_flag == false:
+					matriz[i][j].casilla.set_evento(flag)
+					
